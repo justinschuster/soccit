@@ -30,4 +30,6 @@ if __name__ == "__main__":
                     ])
 
     posts = pd.DataFrame(posts, columns=['title', 'score', 'id', 'subreddit', 'url', 'num_comments', 'body', 'created'])
-    print(posts)
+    
+    os.makedirs('/home/justin/Projects/scrape_r_soccer/output', exist_ok=True)
+    posts.to_csv('/home/justin/Projects/scrape_r_soccer/output/out.csv')
