@@ -1,5 +1,5 @@
 import os
-import pandas
+import pandas as pd
 import praw
 
 from dotenv import load_dotenv
@@ -14,7 +14,20 @@ def auth_reddit():
 
 if __name__ == "__main__":
     reddit = auth_reddit()
-    hot_posts = reddit.subreddit('soccer').hot(limit=10)
-    for post in hot_posts:
-        print(post.title)
-        print()
+
+    posts = []
+    soccer_subreddit = reddit.subreddit('soccer')
+    for post in soccer_subreddit.hot(limit=10):
+        posts.append([
+                        post.title,
+                        post.score,
+                        post.id,
+                        post.subreddit,
+                        post.url,
+                        post.num_comments,
+                        post.selftext,
+                        post.created
+                    ])
+
+    posts = pd.DataFrame(posts, columns=['title', 'score', 'id', 'subreddit', 'url', 'num_comments', 'body', 'created'])
+    print(posts)
