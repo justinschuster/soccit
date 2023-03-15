@@ -1,11 +1,20 @@
 import os
+import pandas
 import praw
 
 from dotenv import load_dotenv
 
-load_dotenv()
-REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
-REDDIT_SECRET = os.getenv('REDDIT_SECRET')
-REDDIT_DEVELOPER_NAME = os.getenv('REDDIT_DEVELOPER_NAME')
+def auth_reddit():
+    load_dotenv()
+    REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
+    REDDIT_SECRET = os.getenv('REDDIT_SECRET')
+    REDDIT_DEVELOPER_NAME = os.getenv('REDDIT_DEVELOPER_NAME')
 
-reddit = praw.Reddit(client_id=REDDIT_CLIENT_ID, client_secret=REDDIT_SECRET, user_agent=REDDIT_DEVELOPER_NAME)
+    return praw.Reddit(client_id=REDDIT_CLIENT_ID, client_secret=REDDIT_SECRET, user_agent=REDDIT_DEVELOPER_NAME)
+
+if __name__ == "__main__":
+    reddit = auth_reddit()
+    hot_posts = reddit.subreddit('soccer').hot(limit=10)
+    for post in hot_posts:
+        print(post.title)
+        print()
